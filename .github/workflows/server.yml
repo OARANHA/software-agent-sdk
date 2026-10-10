@@ -1,11 +1,8 @@
 ---
 name: Agent Server
 
+# Wandora: never publish images on upstream sync, push or pull request.
 on:
-    push:
-        branches: [main]
-    pull_request:
-        branches: [main]
     workflow_dispatch:
         inputs:
             base_image:
@@ -15,7 +12,7 @@ on:
             image:
                 description: GHCR image name
                 type: string
-                default: ghcr.io/openhands/agent-server
+                default: ghcr.io/oaranha/wandora-agent-server
             platforms:
                 description: Target platforms
                 type: string
@@ -424,7 +421,7 @@ jobs:
         runs-on: ${{ matrix.runner }}
 
         env:
-            IMAGE: ${{ inputs.image != '' && inputs.image || 'ghcr.io/openhands/agent-server' }}
+            IMAGE: ghcr.io/oaranha/wandora-agent-server
             BASE_IMAGE: ${{ inputs.base_image != '' && inputs.base_image || matrix.base_image }}
             # The maybe-empty value (inputs.install_acp_providers) must be the
             # LAST operand: GitHub Actions' `A && B || C` collapses to C
@@ -611,7 +608,7 @@ jobs:
             matrix:
                 variant: [python, python-slim, python-minimal, java, golang]
         env:
-            IMAGE: ${{ inputs.image != '' && inputs.image || 'ghcr.io/openhands/agent-server' }}
+            IMAGE: ghcr.io/oaranha/wandora-agent-server
 
         steps:
             - name: Download build info to extract SHORT_SHA
